@@ -43,7 +43,7 @@ def download_wallpaper(wall_src):
         print "download error"
     else:
         print "download success"
-
+    return full_path
 
 def setup_wallpaper(path): ### Gnome only. For other system comming soon :)
     if conf.DS == 'Gnome':
