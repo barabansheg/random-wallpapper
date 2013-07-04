@@ -5,21 +5,26 @@ import lxml.html
 import base64
 import re
 import os
-
+import sys
 
 import conf
 
 
 def get_wallpaper_src():
-    page_url = "http://wallbase.cc/random/213/eqeq/1920x1080/0/100/20";
+    page_url = "http://wallbase.cc/random/213/eqeq/"+conf.RESOLUTION+"/0/100/20";
     
     page = urllib.urlopen(page_url)
     page_html = lxml.html.document_fromstring(page.read())
 
-    first_elem = page_html.cssselect('#thumbs .thdraggable')[0]
+    try:
+        first_elem = page_html.cssselect('#thumbs .thdraggable')[0]
+    except IndexError:
+        print "Not found anything"
+        sys.exit(1)
+    
     wall_url = str(first_elem.get('href'))
     wall_page = urllib.urlopen(wall_url)
-
+    
     wall_page_html = lxml.html.document_fromstring(wall_page.read())
     wall_elem = wall_page_html.cssselect("#bigwall script")[0]
     r = re.compile('\w+=?')
@@ -39,6 +44,13 @@ def download_wallpaper(wall_src):
     else:
         print "download success"
 
+
+def setup_wallpaper(path): ### Gnome only. For other system comming soon :)
+    if conf.DS == 'Gnome':
+        os.system('gsettings set org.gnome.desktop.background picture-uri file://'+path)
+    return 0
+
 if __name__ == "__main__":
     wall_src = get_wallpaper_src()
-    download_wallpaper(wall_src)
+    path = download_wallpaper(wall_src)
+    setup_wallpaper(path)
