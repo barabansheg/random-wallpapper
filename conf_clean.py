@@ -4,5 +4,5 @@
 
 RESOLUTION = "" #your screen resolution, for example: "1920x1080"
 PATH = "" # wallpaper download path, for example: "/home/user/wallpapers/"
-OS = "" # Your desktop system (Gnome|KDE|Win)
+DS = "" # Your desktop system, for example "Gnome"
 
